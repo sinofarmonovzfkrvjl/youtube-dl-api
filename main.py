@@ -14,12 +14,12 @@ async def root():
 async def download_video(url: str):
     ydl_opts = {
         'format': 'best[ext=mp4]',
-        'outtmpl': f'%(title)s.%(ext)s',
-        'noplaylist': True,
+        'outtmpl': 'video.%(ext)s',
     }
-    mp4 = glob.glob("*.mp4")[0]
-    print(mp4)
-    os.remove(mp4)
+    try:
+        os.remove("video.mp4")
+    except:
+        pass
     try:
         os.remove(glob.glob("*.part")[0])
     except:
@@ -37,7 +37,7 @@ async def download_video(url: str):
 @app.get("/api/oiewihfondsfjqhrfiohdvncojiuqtrewqawsedxcfrtgyhuwejfkmdfpvghoykwulpth0o9685u347swhiue5ry7r3hf0okmrtgnj8u543wedhbwje3g2t5frde67ts8fyt5hu4tt389wofsj")
 async def get_video():
     def iterate_file():
-        with open(glob.glob("*.mp4")[0], 'rb') as f:
+        with open("video.mp4", 'rb') as f:
             yield from f
 
     return StreamingResponse(iterate_file(), media_type="video/mp4")
